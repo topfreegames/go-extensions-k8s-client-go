@@ -64,3 +64,13 @@ func newWithContext(c *restWrapper.Client, ctx context.Context) *Clientset {
 func (c *Clientset) WithContext(ctx context.Context) *Clientset {
 	return newWithContext(c.restClient, ctx)
 }
+
+// TryWithContext tries to cast the kubernetes.Interface sent to *Clientset
+// and returns either the original kubernetes.Interface WITHOUT ctx,
+// or a valid *Clientset with ctx applied
+func TryWithContext(c kubernetes.Interface, ctx context.Context) (kubernetes.Interface, bool) {
+	if casted, ok := c.(*Clientset); ok {
+		return casted.WithContext(ctx), true
+	}
+	return c, false
+}

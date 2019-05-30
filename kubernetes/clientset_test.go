@@ -82,3 +82,31 @@ func TestProxiedCalls(t *testing.T) {
 		t.Fatalf("Expected calls[CoreV1] to be 0. Got %d", m.calls["CoreV1"])
 	}
 }
+
+func TestTryWithContextWithValidCast(t *testing.T) {
+	cs, err := kubernetesExtensions.NewForConfig(c)
+	if err != nil {
+		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
+	}
+	k, ok := kubernetesExtensions.TryWithContext(cs, context.Background())
+	if k == cs {
+		t.Fatal("Expected TryWithContext to return a new instance of *kubernetesExtensions.Clientset")
+	}
+	if ok != true {
+		t.Fatal("Expected TryWithContext to return true")
+	}
+}
+
+func TestTryWithContextWithInvalidCast(t *testing.T) {
+	m, err := newClientsetMock(c)
+	if err != nil {
+		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
+	}
+	k, ok := kubernetesExtensions.TryWithContext(m, context.Background())
+	if k != m {
+		t.Fatal("Expected TryWithContext to return the same clientsetMock instance")
+	}
+	if ok != false {
+		t.Fatal("Expected TryWithContext to return false")
+	}
+}
