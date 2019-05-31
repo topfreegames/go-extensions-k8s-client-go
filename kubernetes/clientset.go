@@ -248,7 +248,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 	cs := *c
 	if casted, ok := cs.Discovery().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -257,7 +257,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AdmissionregistrationV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -266,7 +266,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AdmissionregistrationV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -275,7 +275,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AppsV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -284,7 +284,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AppsV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -293,7 +293,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AppsV1beta2().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -302,7 +302,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthenticationV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -311,7 +311,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthenticationV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -320,7 +320,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthorizationV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -329,7 +329,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthorizationV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -338,7 +338,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AutoscalingV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -347,7 +347,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AutoscalingV2beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -356,7 +356,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.BatchV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -365,7 +365,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.BatchV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -374,7 +374,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.BatchV2alpha1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -383,7 +383,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.CertificatesV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -392,7 +392,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.CoreV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -401,7 +401,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.EventsV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -410,7 +410,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.ExtensionsV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -419,7 +419,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.NetworkingV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -428,7 +428,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.PolicyV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -437,7 +437,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.RbacV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -446,7 +446,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.RbacV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -455,7 +455,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.RbacV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -464,7 +464,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.SchedulingV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -473,7 +473,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.SchedulingV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -482,7 +482,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.SettingsV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -491,7 +491,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.StorageV1beta1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -500,7 +500,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.StorageV1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -509,7 +509,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.StorageV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		if !cs.instrumented {
+		if !c.instrumented {
 			http.Instrument(casted.Client)
 		}
 		rw := restWrapper.New(casted).WithContext(ctx)
@@ -517,6 +517,7 @@ func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 	} else {
 		return nil, &NotRESTClientError{}
 	}
+	c.instrumented = true
 	cs.instrumented = true
 	return &cs, nil
 }

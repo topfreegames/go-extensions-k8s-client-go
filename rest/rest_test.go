@@ -77,6 +77,31 @@ func TestWithContext(t *testing.T) {
 	}
 }
 
+func TestWithContextWithNesting(t *testing.T) {
+	m := newRestMock()
+	r := restExtensions.New(m)
+	ctx := context.Background()
+	if m.calls["Verb"] != 0 {
+		t.Fatalf("Expected calls[Verb] to be 0. Got %d", m.calls["Verb"])
+	}
+	rr := r.WithContext(ctx)
+	if rr == r {
+		t.Fatal("Expected WithContext to return a new instance of *restExtensions.Client")
+	}
+	rr.Verb("POST")
+	if m.calls["Verb"] != 1 {
+		t.Fatalf("Expected calls[Verb] to be 1. Got %d", m.calls["Verb"])
+	}
+	rrr := rr.WithContext(ctx)
+	if rrr != rr {
+		t.Fatal("Expected WithContext to return the same instance when ctx is already set")
+	}
+	rrr.Verb("POST")
+	if m.calls["Verb"] != 2 {
+		t.Fatalf("Expected calls[Verb] to be 2. Got %d", m.calls["Verb"])
+	}
+}
+
 func TestVerb(t *testing.T) {
 	m := newRestMock()
 	r := restExtensions.New(m)

@@ -38,8 +38,8 @@ func TestWithContext(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
 	}
-	if c.Instrumented() == true {
-		t.Fatal("Expected c *Clientset not to be instrumented")
+	if c.Instrumented() == false {
+		t.Fatal("Expected c *Clientset to be instrumented")
 	}
 	if cc.Instrumented() == false {
 		t.Fatal("Expected cc *Clientset to be instrumented")

@@ -45,6 +45,11 @@ func New(wrapped rest.Interface) *Client {
 // that will be used by any *rest.Request as a result of calling any *Client
 // methods
 func (r *Client) WithContext(ctx context.Context) *Client {
+	// prevent nested wrapping
+	if r.ctx != nil {
+		r.ctx = ctx
+		return r
+	}
 	return &Client{
 		Interface: r.Interface,
 		ctx:       ctx,
