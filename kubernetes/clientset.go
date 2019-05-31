@@ -105,6 +105,7 @@ type Clientset struct {
 	storageV1beta1                *storagev1beta1.StorageV1beta1Client
 	storageV1                     *storagev1.StorageV1Client
 	storageV1alpha1               *storagev1alpha1.StorageV1alpha1Client
+	instrumented                  bool
 }
 
 // NewForConfig creates a *Clientset that acts as a wrapper over an instance of
@@ -247,216 +248,281 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
 	cs := *c
 	if casted, ok := cs.Discovery().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.DiscoveryClient = discovery.NewDiscoveryClient(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AdmissionregistrationV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.admissionregistrationV1alpha1 = admissionregistrationv1alpha1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AdmissionregistrationV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.admissionregistrationV1beta1 = admissionregistrationv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AppsV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.appsV1 = appsv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AppsV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.appsV1beta1 = appsv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AppsV1beta2().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.appsV1beta2 = appsv1beta2.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthenticationV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.authenticationV1 = authenticationv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthenticationV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.authenticationV1beta1 = authenticationv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthorizationV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.authorizationV1 = authorizationv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AuthorizationV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.authorizationV1beta1 = authorizationv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AutoscalingV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.autoscalingV1 = autoscalingv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.AutoscalingV2beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.autoscalingV2beta1 = autoscalingv2beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.BatchV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.batchV1 = batchv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.BatchV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.batchV1beta1 = batchv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.BatchV2alpha1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.batchV2alpha1 = batchv2alpha1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.CertificatesV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.certificatesV1beta1 = certificatesv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.CoreV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.coreV1 = corev1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.EventsV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.eventsV1beta1 = eventsv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.ExtensionsV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.extensionsV1beta1 = extensionsv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.NetworkingV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.networkingV1 = networkingv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.PolicyV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.policyV1beta1 = policyv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.RbacV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.rbacV1 = rbacv1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.RbacV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.rbacV1beta1 = rbacv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.RbacV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.rbacV1alpha1 = rbacv1alpha1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.SchedulingV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.schedulingV1alpha1 = schedulingv1alpha1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.SchedulingV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.schedulingV1beta1 = schedulingv1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.SettingsV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.settingsV1alpha1 = settingsv1alpha1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.StorageV1beta1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.storageV1beta1 = storagev1beta1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.StorageV1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.storageV1 = storagev1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
 	if casted, ok := cs.StorageV1alpha1().RESTClient().(*rest.RESTClient); ok {
-		http.Instrument(casted.Client)
+		if !cs.instrumented {
+			http.Instrument(casted.Client)
+		}
 		rw := restWrapper.New(casted).WithContext(ctx)
 		cs.storageV1alpha1 = storagev1alpha1.New(rw)
 	} else {
 		return nil, &NotRESTClientError{}
 	}
+	cs.instrumented = true
 	return &cs, nil
+}
+
+func (c *Clientset) Instrumented() bool {
+	return c.instrumented
 }
 
 // WithContext tries to cast the kubernetes.Interface sent to *Clientset
