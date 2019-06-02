@@ -26,23 +26,27 @@ func TestNewForConfig(t *testing.T) {
 	}
 }
 
+// test instrument with reflect => check type of transport?
+
+func TestTest(t *testing.T) {
+	t.Fatal("err")
+}
+
+// TESTS
+// UnexpectedRestInterfaceImpl
+// instrumentStruct first and second time
+// check that WithContext returns a != pointer
+// check that WithContext's Clientset fields are != pointers
+// check that ... restClient is restWrapper
+
 func TestWithContext(t *testing.T) {
 	c, err := kubernetesExtensions.NewForConfig(c)
 	if err != nil {
 		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
 	}
-	if c.Instrumented() == true {
-		t.Fatal("Expected c *Clientset not to be instrumented")
-	}
 	cc, err := c.WithContext(context.Background())
 	if err != nil {
 		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
-	}
-	if c.Instrumented() == false {
-		t.Fatal("Expected c *Clientset to be instrumented")
-	}
-	if cc.Instrumented() == false {
-		t.Fatal("Expected cc *Clientset to be instrumented")
 	}
 	if cc == c {
 		t.Fatal("Expected WithContext to return a new instance of *kubernetesExtensions.Clientset")
