@@ -11,7 +11,7 @@ import (
 )
 
 // for each field in *kubernetes.Clientset, instrument it's underlying `restClient`
-func instrument(c *Clientset, ctx context.Context) error {
+func Instrument(c *Clientset, ctx context.Context) error {
 	rs := reflect.ValueOf(c).Elem()
 	rf := rs.FieldByName("Clientset")
 	rf = reflect.NewAt(rf.Type(), unsafe.Pointer(rf.UnsafeAddr())).Elem()
@@ -23,24 +23,20 @@ func instrument(c *Clientset, ctx context.Context) error {
 	return nil
 }
 
-// access `s`.`restClient` and instrument it if it's the first time, meaning
-// it's type is *rest.RESTClient, or change it's `ctx` if it's already a
-// *restWrapper.Client
+// access `s`.`restClient` and instrument it. It's type is expected to be
+// *rest.RESTClient. After instrumentation, it's reset wrapped in *restWrapper.Client
 func instrumentStruct(c reflect.Value, ctx context.Context, s string) error {
 	// TODO: test when field doesnt exist, handle error instead of panic
 	rf := reflect.Indirect(c).FieldByName(s)
 	rf = reflect.NewAt(rf.Type(), unsafe.Pointer(rf.UnsafeAddr())).Elem()
 	rf = reflect.Indirect(rf).FieldByName("restClient")
 	rf = reflect.NewAt(rf.Type(), unsafe.Pointer(rf.UnsafeAddr())).Elem()
-	clientI := rf.Interface()
-	switch v := clientI.(type) {
-	case *rest.RESTClient:
-		http.Instrument(v.Client)
-	case *restWrapper.Client:
-		clientI = v.WithContext(ctx)
-	default:
+	v, ok := rf.Interface().(*rest.RESTClient)
+	if !ok {
 		return &UnexpectedRestInterfaceImplError{}
 	}
-	rf.Set(reflect.ValueOf(clientI))
+	http.Instrument(v.Client)
+	wrapped := restWrapper.New(v).WithContext(ctx)
+	rf.Set(reflect.ValueOf(wrapped))
 	return nil
 }

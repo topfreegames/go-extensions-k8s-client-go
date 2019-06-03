@@ -35,26 +35,25 @@ type Clientset struct {
 }
 
 func NewForConfig(c *rest.Config) (*Clientset, error) {
+	return newWithContext(c, nil)
+}
+
+func newWithContext(c *rest.Config, ctx context.Context) (*Clientset, error) {
 	k, err := kubernetes.NewForConfig(c)
 	if err != nil {
 		return nil, err
 	}
 	cs := &Clientset{Clientset: k, Config: c}
-	instrument(cs, nil)
+	if err := Instrument(cs, ctx); err != nil {
+		return nil, err
+	}
 	return cs, nil
 }
 
 // WithContext creates a new instance of *Clientset with `ctx` propagated to
 // it's components' RESTClient instances
 func (c *Clientset) WithContext(ctx context.Context) (*Clientset, error) {
-	cs, err := NewForConfig(c.Config)
-	if err != nil {
-		return nil, err
-	}
-	if err := instrument(cs, ctx); err != nil {
-		return nil, err
-	}
-	return cs, nil
+	return newWithContext(c.Config, ctx)
 }
 
 // WithContext tries to cast the kubernetes.Interface sent to *Clientset
