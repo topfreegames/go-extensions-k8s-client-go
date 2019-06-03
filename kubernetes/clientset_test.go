@@ -2,9 +2,12 @@ package kubernetes_test
 
 import (
 	"context"
+	"reflect"
 	"testing"
+	"unsafe"
 
 	kubernetesExtensions "github.com/topfreegames/go-extensions-k8s-client-go/kubernetes"
+	restWrapper "github.com/topfreegames/go-extensions-k8s-client-go/rest"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/scheme"
@@ -26,28 +29,69 @@ func TestNewForConfig(t *testing.T) {
 	}
 }
 
-func TestWithContext(t *testing.T) {
-	c, err := kubernetesExtensions.NewForConfig(c)
+type wrongRest struct {
+	*rest.RESTClient
+}
+
+func TestUnexpectedRestInterfaceImpl(t *testing.T) {
+	k, err := kubernetesExtensions.NewForConfig(c)
 	if err != nil {
 		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
 	}
-	if c.Instrumented() == true {
-		t.Fatal("Expected c *Clientset not to be instrumented")
+	cv1 := k.CoreV1()
+	rf := reflect.ValueOf(cv1).Elem().FieldByName("restClient")
+	rf = reflect.NewAt(rf.Type(), unsafe.Pointer(rf.UnsafeAddr())).Elem()
+	rf.Set(reflect.ValueOf(&wrongRest{}))
+	err = kubernetesExtensions.Instrument(k, nil)
+	if _, ok := err.(*kubernetesExtensions.UnexpectedRestInterfaceImplError); !ok {
+		t.Fatal("Expected err to be UnexpectedRestInterfaceImplError")
 	}
-	cc, err := c.WithContext(context.Background())
+}
+
+func TestInstrumentShouldReplaceByRestWrapper(t *testing.T) {
+	k, err := kubernetesExtensions.NewForConfig(c)
 	if err != nil {
 		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
 	}
-	if c.Instrumented() == false {
-		t.Fatal("Expected c *Clientset to be instrumented")
+	client := k.CoreV1().RESTClient()
+	if _, ok := client.(*restWrapper.Client); !ok {
+		t.Fatal("Expected client to be *restWrapper.Client")
 	}
-	if cc.Instrumented() == false {
-		t.Fatal("Expected cc *Clientset to be instrumented")
+}
+
+func TestInstrumentWithContextShouldReturnWrapperWithCtx(t *testing.T) {
+	k, err := kubernetesExtensions.NewForConfig(c)
+	if err != nil {
+		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
 	}
-	if cc == c {
+	ctx := context.Background()
+	kk, err := k.WithContext(ctx)
+	if err != nil {
+		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
+	}
+	clientWithCtx := kk.CoreV1().RESTClient()
+	req := clientWithCtx.Get()
+	rf := reflect.ValueOf(req).Elem().FieldByName("ctx")
+	reqCtx := reflect.NewAt(rf.Type(), unsafe.Pointer(rf.UnsafeAddr())).
+		Elem().Interface().(context.Context)
+	if ctx != reqCtx {
+		t.Fatal("Expected ctx and reqCtx to be the same")
+	}
+}
+
+func TestClientWithContextShouldReturnNewClient(t *testing.T) {
+	k, err := kubernetesExtensions.NewForConfig(c)
+	if err != nil {
+		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
+	}
+	cc, err := k.WithContext(context.Background())
+	if err != nil {
+		t.Fatalf("Expected err not to have occurred. Err: %s", err.Error())
+	}
+	if cc == k {
 		t.Fatal("Expected WithContext to return a new instance of *kubernetesExtensions.Clientset")
 	}
-	if cc.CoreV1() == c.CoreV1() {
+	if cc.CoreV1() == k.CoreV1() {
 		t.Fatal("Expected cc.CoreV1() to be != c.CoreV1()")
 	}
 }
