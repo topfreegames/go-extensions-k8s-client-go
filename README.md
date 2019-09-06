@@ -5,3 +5,5 @@ This go library is a wrapper over [k8s.io/client-go](https://godoc.org/k8s.io/cl
 All the other methods are proxies to the wrapped instances of *kubernetes.Clientset and *rest.RESTClient methods.
 
 It's setup with k8s.io/client-go v10.0 and k8s libs in 1.13.9 in mind.
+
+There are tags with specific k8s versions. E.g: kubernetes-1.11.7, kubernetes-1.13.9, etc.
