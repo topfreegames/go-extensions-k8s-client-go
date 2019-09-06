@@ -18,15 +18,15 @@ require (
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
 	github.com/stretchr/testify v1.3.0 // indirect
 	github.com/topfreegames/go-extensions-http v1.0.0
-	github.com/topfreegames/go-extensions-tracing v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20190530122614-20be4c3c3ed5 // indirect
 	golang.org/x/net v0.0.0-20190522155817-f3200d17e092 // indirect
+	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
-	k8s.io/api v0.0.0-20190126160459-e86510ea3fe7
-	k8s.io/apimachinery v0.0.0-20190118094746-1525e4dadd2d
-	k8s.io/client-go v8.0.0+incompatible
+	k8s.io/api v0.0.0-20190805182141-5e2f71e44c7f
+	k8s.io/apimachinery v0.0.0-20190629003722-e20a3a656cff
+	k8s.io/client-go v10.0.0+incompatible
+	k8s.io/klog v0.4.0 // indirect
+	sigs.k8s.io/yaml v1.1.0 // indirect
 )
-
-replace github.com/topfreegames/go-extensions-tracing => github.com/topfreegames/go-extensions-tracing v1.0.0
